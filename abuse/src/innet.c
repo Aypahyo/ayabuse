@@ -44,7 +44,7 @@ extern char lsf[256];
 game_handler *game_face=NULL;
 int local_client_number=0;        // 0 is the server
 join_struct *join_array=NULL;      // points to an array of possible joining clients
-extern char *get_login();
+extern const char *get_login();
 extern void set_login(char *name);
 
 int net_init(int argc, char **argv)

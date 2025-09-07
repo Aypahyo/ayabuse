@@ -16,17 +16,53 @@
 #endif
 
 
-#ifndef min
-#define min(x,y) (x<y ? x:y)
-#endif
-#ifndef max
-#define max(x,y) (x>y ? x:y)
+#if !defined(__cplusplus)
+# ifndef min
+#  define min(x,y) (x<y ? x:y)
+# endif
+# ifndef max
+#  define max(x,y) (x>y ? x:y)
+# endif
+#else
+/*
+ * When compiling as C++ we must not define global macros named `min`/`max`
+ * because they conflict with the C++ standard library (std::min/std::max)
+ * and break inclusion of <limits>, <algorithm>, etc.  Older C code expected
+ * the macros; in C++ builds prefer using std::min/std::max instead.
+ */
 #endif
 
-#define uchar  unsigned char
-#define schar  signed char
-#define ushort unsigned short
-#define sshort signed short
-#define ulong  unsigned long
+#ifndef uchar
+typedef unsigned char uchar;
+#endif
+#ifndef schar
+typedef signed char schar;
+#endif
+#ifndef ushort
+typedef unsigned short ushort;
+#endif
+#ifndef sshort
+typedef signed short sshort;
+#endif
+#ifndef ulong
+typedef unsigned long ulong;
+#endif
+
+#ifdef __cplusplus
+#include <type_traits>
+// Provide global min/max function templates that accept mixed argument
+// types by returning the common_type between them. This mirrors the old
+// C-style macros while remaining safe for C++ headers.
+template<typename A, typename B>
+inline std::common_type_t<A,B> min(const A &a, const B &b) {
+  return a < b ? static_cast<std::common_type_t<A,B>>(a)
+               : static_cast<std::common_type_t<A,B>>(b);
+}
+template<typename A, typename B>
+inline std::common_type_t<A,B> max(const A &a, const B &b) {
+  return a > b ? static_cast<std::common_type_t<A,B>>(a)
+               : static_cast<std::common_type_t<A,B>>(b);
+}
+#endif
 
 #endif

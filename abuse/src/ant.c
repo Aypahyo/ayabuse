@@ -232,9 +232,9 @@ void *ant_ai()
 	}
 	else
 	{ 
-	  o->set_state(stopped);
-	  o->set_aistate(ANT_RUNNING);
-	  return ant_ai;
+  o->set_state(stopped);
+  o->set_aistate(ANT_RUNNING);
+  return reinterpret_cast<void*>(ant_ai);
 	}
       }
     } break;

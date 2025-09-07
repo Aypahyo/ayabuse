@@ -5,7 +5,7 @@
 #include "timing.hpp"
 #include "light.hpp"
 
-extern char *get_login();
+extern const char *get_login();
 extern window_manager *eh;
 net_configuration *main_net_cfg=NULL;
 extern char lsf[256];
@@ -100,8 +100,8 @@ int net_configuration::confirm_inputs(input_manager *i, int server)
     bFILE *fp=open_file("addon/deathmat/gamename.lsp","wb");
     if (!fp->open_failure())
     {
-      char str[100];
-      sprintf(str,"(setq gamename \"%s\")\n",game_name);
+  char str[100];
+  snprintf(str, sizeof(str), "(setq gamename \"%s\")\n", game_name);
       fp->write(str,strlen(str)+1);
     }
     delete fp;
@@ -113,11 +113,11 @@ int net_configuration::confirm_inputs(input_manager *i, int server)
     {
       char str[100];
       if (((ifield *)(i->get(LEVEL_BOX)->read()))->id==LVL_2)
-        sprintf(str,"(load \"addon/deathmat/small.lsp\")\n"); 
+        snprintf(str, sizeof(str), "(load \"addon/deathmat/small.lsp\")\n"); 
       else if (((ifield *)(i->get(LEVEL_BOX)->read()))->id==LVL_4)
-        sprintf(str,"(load \"addon/deathmat/medium.lsp\")\n"); 
+        snprintf(str, sizeof(str), "(load \"addon/deathmat/medium.lsp\")\n"); 
       else
-        sprintf(str,"(load \"addon/deathmat/large.lsp\")\n"); 
+        snprintf(str, sizeof(str), "(load \"addon/deathmat/large.lsp\")\n"); 
       fp->write(str,strlen(str)+1);
     }
     delete fp;
@@ -135,8 +135,8 @@ int net_configuration::confirm_inputs(input_manager *i, int server)
   bFILE *fp=open_file("addon/deathmat/username.lsp","wb");
   if (!fp->open_failure())
   {
-    char str[100];
-    sprintf(str,"(setq username \"%s\")\n",name);
+  char str[100];
+  snprintf(str, sizeof(str), "(setq username \"%s\")\n", name);
     fp->write(str,strlen(str)+1);
   }
   delete fp;

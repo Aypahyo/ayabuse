@@ -146,8 +146,8 @@ out_socket *unix_in_socket::check_for_connect()
 
   if (FD_ISSET(fd,&set))
   {
-    int len=sizeof(sockaddr_in);
-    int new_fd=accept(fd, (struct sockaddr *) &host, &len);
+  socklen_t len=sizeof(sockaddr_in);
+  int new_fd=accept(fd, (struct sockaddr *) &host, &len);
     if (new_fd<0)
     {
       set_sock_err(SOCK_ACCEPT_FAIL);

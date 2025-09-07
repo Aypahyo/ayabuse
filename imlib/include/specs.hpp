@@ -76,7 +76,7 @@ class bFILE     // base file type which other files should be derived from (jFIL
   int flush_writes();                             // returns 0 on failure, else # of bytes written
 
   virtual int unbuffered_read(void *buf, size_t count)  = 0;
-  virtual int unbuffered_write(void *buf, size_t count) = 0;
+  virtual int unbuffered_write(const void *buf, size_t count) = 0;
   virtual int unbuffered_tell()                         = 0;
   virtual int unbuffered_seek(long offset, int whence)  = 0;   // whence=SEEK_SET, SEEK_CUR,
                                                                // SEEK_END, ret=0=success
@@ -86,7 +86,7 @@ class bFILE     // base file type which other files should be derived from (jFIL
   bFILE();
   virtual int open_failure() = 0;
   int read(void *buf, size_t count);       // returns number of bytes read, calls unbuffer_read
-  int write(void *buf, size_t count);      // returns number of bytes written
+  int write(const void *buf, size_t count);      // returns number of bytes written
   int seek(long offset, int whence);       // whence=SEEK_SET, SEEK_CUR, SEEK_END, ret=0=success
   int tell();
   virtual int file_size() = 0;
@@ -126,7 +126,7 @@ public :
   jFILE(FILE *file_pointer);                      // assumes fp is at begining of file
   virtual int open_failure() { return fd<0; }
   virtual int unbuffered_read(void *buf, size_t count);       // returns number of bytes read
-  virtual int unbuffered_write(void *buf, size_t count);     // returns number of bytes written
+  virtual int unbuffered_write(const void *buf, size_t count);     // returns number of bytes written
   virtual int unbuffered_seek(long offset, int whence);      // whence=SEEK_SET, SEEK_CUR, 
                                                              // SEEK_END, ret=0=success
   virtual int unbuffered_tell();

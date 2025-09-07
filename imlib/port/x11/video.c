@@ -451,7 +451,7 @@ void set_mode(int mode, int argc, char **argv)
   xres--; yres--;
 
 
-  icon_pixmap=XCreateBitmapFromData(display,mainwin,bitmap_bits,
+  icon_pixmap=XCreateBitmapFromData(display,mainwin,(const char*)bitmap_bits,
 	bitmap_width, bitmap_height);
   ERROR((size_hints=XAllocSizeHints()),"memory allocation error");
   ERROR((wm_hints=XAllocWMHints()),"memory allocation error");

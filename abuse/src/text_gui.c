@@ -17,7 +17,7 @@
 #include <sys/stat.h>
 #define make_dir(dir) mkdir(dir,S_IRWXU | S_IRWXG | S_IRWXO)
 
-void modify_install_path(char *path) { ; }
+void modify_install_path(const char *path) { ; }
 #endif
 
 
@@ -63,7 +63,7 @@ void modify_install_path(char *path)
 #include <dos.h>
 #endif
 
-int change_dir(char *path)
+int change_dir(const char *path)
 {
 #ifdef __WATCOMC__
   unsigned cur_drive;
@@ -99,7 +99,7 @@ int change_dir(char *path)
 #endif  
 }
 
-long K_avail(char *path);
+long K_avail(const char *path);
 
 #ifdef __WATCOMC__
 #include "i86.h"
@@ -127,7 +127,7 @@ void set_cursor(int x, int y) {
  
 void put_char(int x, int y, int val, int color) { *((unsigned short *)(0xb8000+y*2*80+x*2))=(val)|(color<<8); }
 unsigned short get_char(int x, int y, int val) { return *((unsigned short *)(0xb8000+y*2*80+x*2)); }
-void put_string(int x,int y,char *s, int c) { while (*s) put_char(x++,y,*(s++),c); }
+void put_string(int x,int y,const char *s, int c) { while (*s) put_char(x++,y,*(s++),c); }
 void bar(int x1, int y1, int x2, int y2, int v, int c)
 { int x,y; 
   for (x=x1;x<=x2;x++)
@@ -148,7 +148,7 @@ void box(int x1, int y1, int x2, int y2, int c)
   int y; for (y=y1+1;y<y2;y++) { put_char(x1,y,bc[5],c);  put_char(x2,y,bc[5],c); }
 }
 
-void put_title(char *t)
+void put_title(const char *t)
 {
   int x1=0,y1=0,x2=79,y2=25;
   bar(x1,y1,x2,y1,' ',0x4f);
@@ -158,7 +158,7 @@ void put_title(char *t)
 
 
 
-int nice_copy(char *title, char *source, char *dest)
+int nice_copy(const char *title, const char *source, char *dest)
 {
   int x1=0,y1=0,x2=79,y2=25;
   bar(x1,y1+1,x2,y2,176,0x01);
@@ -168,7 +168,7 @@ int nice_copy(char *title, char *source, char *dest)
   bar(x1+1,(y1+y2)/2,x2-1,(y1+y2)/2+2,' ',0x17);
   
   char msg[100];
-  sprintf(msg,"Copying %s -> %s",source,dest);
+  snprintf(msg, sizeof(msg), "Copying %s -> %s", source, dest);
   put_string(x1+1,(y1+y2)/2,msg,0x17);
   bar(x1+1,(y1+y2)/2+2,x2-1,(y1+y2)/2+2,176,0x17);
 
@@ -206,7 +206,7 @@ int nice_copy(char *title, char *source, char *dest)
   return 1;
 }
 
-void *nice_input(char *t, char *p, char *d)
+void *nice_input(const char *t, char *p, char *d)
 {  
 
   int x1=0,y1=0,x2=79,y2=25;
@@ -380,13 +380,13 @@ void *show_yes_no(void *t, void *msg, void *y, void *n)
 
 #else
 
-int nice_copy(char *title, char *source, char *dest) { return 0; }
+int nice_copy(const char *title, const char *source, char *dest) { return 0; }
 
 long K_avail(char *path)
 {
 #if 0 // ugh
   char cmd[100];
-  sprintf(cmd,"du %s",path);
+  snprintf(cmd, sizeof(cmd), "du %s", path);
   FILE *fp=popen(cmd,"rb");
   if (!fp)
   {
@@ -467,7 +467,7 @@ void *nice_menu(void *main_title, void *menu_title, void *list)
   return new_lisp_number(d-1);
 }
 
-void *nice_input(char *t, char *p, char *d)
+void *nice_input(const char *t, char *p, char *d)
 {
   int x; for (x=0;x<(40-strlen(t)/2);x++) printf(" ");
   printf("%s\n",t);

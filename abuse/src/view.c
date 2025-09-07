@@ -178,7 +178,7 @@ char *get_login()
 {  if (cur_user_name[0]) return cur_user_name; else return "Mac user"; }
 
 #else
-char *get_login()
+const char *get_login()
 {  if (cur_user_name[0]) return cur_user_name; else return (getlogin() ? getlogin() : "unknown"); }
 
 #endif

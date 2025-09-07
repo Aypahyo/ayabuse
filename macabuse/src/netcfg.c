@@ -6,7 +6,7 @@
 #include "light.hpp"
 #include "key_cfg.hpp"
 
-extern char *get_login();
+extern const char *get_login();
 extern window_manager *eh;
 net_configuration *main_net_cfg=NULL;
 extern char lsf[256];

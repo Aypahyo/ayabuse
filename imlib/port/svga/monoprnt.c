@@ -25,7 +25,7 @@ void mnprintf(const char *format, ...)
   char st[200];
   va_list ap;
   va_start(ap, format);
-  vsprintf(st,format,ap);
+  vsnprintf(st, sizeof(st), format, ap);
   va_end(ap);
   if (monofd<0) openmono();
   write(monofd,st,strlen(st));

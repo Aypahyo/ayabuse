@@ -118,8 +118,11 @@ net_address *tcpip_protocol::get_local_address()
 	  }
 	  else
 	  {
-		  printf("Enter ip address:");
-		  gets(my_name);
+          printf("Enter ip address:");
+          if (fgets(my_name, sizeof(my_name), stdin)) {
+            size_t ln = strlen(my_name);
+            if (ln && my_name[ln-1] == '\n') my_name[ln-1] = '\0';
+          } else my_name[0]=0;
 	  }
 	}  
 

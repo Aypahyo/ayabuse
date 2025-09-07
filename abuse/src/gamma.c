@@ -136,12 +136,12 @@ void gamma_correct(palette *&pal, int force_menu)
   pal=new palette;
   for (int i=0;i<256;i++)
   {
-    double r,g,b;
-    uchar or,og,ob;
-    old_pal->get(i,or,og,ob);
-    pal->set(i,(int)(pow(or/255.0,gamma)*255),
-	     (int)(pow(og/255.0,gamma)*255),
-	     (int)(pow(ob/255.0,gamma)*255));
+  double r,g,b;
+  uchar rr,gg,bb;
+  old_pal->get(i,rr,gg,bb);
+  pal->set(i,(int)(pow(rr/255.0,gamma)*255),
+   	 (int)(pow(gg/255.0,gamma)*255),
+   	 (int)(pow(bb/255.0,gamma)*255));
   }
 
   pal->load();

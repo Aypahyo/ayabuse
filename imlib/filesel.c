@@ -108,22 +108,20 @@ file_picker::file_picker(int X, int Y, int ID, int Rows, ifield *Next)
   reconfigure();  
 }
 
-jwindow *file_dialog(window_manager *wm, char *prompt, char *def,
-		     int ok_id, char *ok_name, int cancel_id, char *cancel_name, char *FILENAME_str, int filename_id)
+jwindow *file_dialog(window_manager *wm, const char *prompt, const char *def,
+             int ok_id, const char *ok_name, int cancel_id, const char *cancel_name, const char *FILENAME_str, int filename_id)
 {
   int wl=WINDOW_FRAME_LEFT,wh=WINDOW_FRAME_TOP;
   int wh2=wh+5+wm->font()->height()+5;
   int wh3=wh2+wm->font()->height()+12;
-  jwindow *j=wm->new_window(0,0,-1,-1,
-			    new info_field(wl+5,wh+5,0,prompt,
-                            new text_field(wl,wh2,filename_id,
-					   ">","****************************************",def,
-			    new button(wl+50,wh3,ok_id,     ok_name,
-			    new button(wl+100,wh3,cancel_id,cancel_name,
-			    new file_picker(wl+15,wh3+wm->font()->height()+10,filename_id,8,
-					  NULL))))),
+  // legacy UI constructors expect char*, cast const char* to char* here
+  ifield *picker = new file_picker(wl+15,wh3+wm->font()->height()+10,filename_id,8, NULL);
+  ifield *cancel_btn = new button(wl+100,wh3,cancel_id,(char*)cancel_name, picker);
+  ifield *ok_btn = new button(wl+50,wh3,ok_id, (char*)ok_name, cancel_btn);
+  ifield *tfield = new text_field(wl,wh2,filename_id, (char*)">", (char*)"****************************************", (char*)def, ok_btn);
+  ifield *info = new info_field(wl+5,wh+5,0,(char*)prompt, tfield);
 
-			    FILENAME_str);
+  jwindow *j = wm->new_window(0,0,-1,-1, info, (char*)FILENAME_str);
   return j;
 }
 

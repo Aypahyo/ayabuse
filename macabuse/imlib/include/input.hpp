@@ -11,7 +11,7 @@ class button : public ifield
   image *visual,*pressed,*act_pict;
   int act_id;
 public : 
-  button(int X, int Y, int ID, char *Text, ifield *Next);
+  button(int X, int Y, int ID, const char *Text, ifield *Next);
   button(int X, int Y, int ID, image *vis, ifield *Next);
   button(int X, int Y, int ID, image *Depressed, image *Pressed, image *active, ifield *Next);
 
@@ -63,9 +63,9 @@ class text_field : public ifield
     wm->font()->put_string(screen,xstart(wm)+1,y+3,data);
   }
 public : 
-  text_field(int X, int Y, int ID, char *Prompt, char *Format, 
-                               char *Data, ifield *Next);
-  text_field(int X, int Y, int ID, char *Prompt, char *Format, 
+  text_field(int X, int Y, int ID, const char *Prompt, const char *Format, 
+                               const char *Data, ifield *Next);
+  text_field(int X, int Y, int ID, const char *Prompt, const char *Format, 
                                double Data, ifield *Next);
 
   virtual void area(int &x1, int &y1, int &x2, int &y2, window_manager *wm);
@@ -84,10 +84,10 @@ class info_field : public ifield
 {
   char *text;
   int w,h;
-  void put_para(image *screen, char *st, int dx, int dy, int xspace, 
+  void put_para(image *screen, const char *st, int dx, int dy, int xspace, 
 		int yspace, JCFont *font, int color);
 public : 
-  info_field(int X, int Y, int ID, char *info, ifield *Next);
+  info_field(int X, int Y, int ID, const char *info, ifield *Next);
   virtual void area(int &x1, int &y1, int &x2, int &y2, window_manager *wm);
   virtual void draw_first(image *screen, window_manager *wm);
   virtual void draw(int active, image *screen, window_manager *wm) { ; }

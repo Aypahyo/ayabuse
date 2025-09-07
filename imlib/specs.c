@@ -180,7 +180,7 @@ int bFILE::read(void *buf, size_t count)       // returns number of bytes read, 
 }
 
 
-int bFILE::write(void *buf, size_t count)      // returns number of bytes written
+int bFILE::write(const void *buf, size_t count)      // returns number of bytes written
 { 
   if (allow_write_buffering())
   {
@@ -191,7 +191,7 @@ int bFILE::write(void *buf, size_t count)      // returns number of bytes writte
       memcpy(wbuf+wbuf_end,buf,copy_size);
       wbuf_end+=copy_size;
       count-=copy_size;
-      buf=(void *)(((char *)buf)+copy_size);
+      buf=(const void *)(((const char *)buf)+copy_size);
       if (wbuf_end==wbuf_size)
         if (flush_writes()!=wbuf_size)
 	  return total_written;
@@ -359,7 +359,7 @@ class null_file : public bFILE     // this file type will use virtual opens insi
   public :
   virtual int open_failure() { return 1; }
   virtual int unbuffered_read(void *buf, size_t count)   { return 0; }
-  virtual int unbuffered_write(void *buf, size_t count)  { return 0; }
+  virtual int unbuffered_write(const void *buf, size_t count)  { return 0; }
   virtual int unbuffered_seek(long offset, int whence)   { return 0; }
 
   virtual int unbuffered_tell() { return 0; }
@@ -523,11 +523,11 @@ int jFILE::unbuffered_read(void *buf, size_t count)
 	return len;
 }
 
-int jFILE::unbuffered_write(void *buf, size_t count)
+int jFILE::unbuffered_write(const void *buf, size_t count)
 {
-  long ret = ::write(fd,(char*)buf,count);
-	current_offset += ret;
-	return ret;
+  long ret = ::write(fd,(const char*)buf,count);
+  current_offset += ret;
+  return ret;
 }
 
 int jFILE::unbuffered_seek(long offset, int whence) // whence=SEEK_SET, SEEK_CUR, SEEK_END, ret=0=success

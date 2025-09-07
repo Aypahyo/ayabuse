@@ -15,7 +15,7 @@ double time_marker::diff_time(time_marker *other)
 
 void time_marker::get_time()
 {
-  struct timezone tz={0,DST_USA};     
+  struct timezone tz={0,0};     
   gettimeofday((struct timeval *)&seconds,&tz);
 }
 

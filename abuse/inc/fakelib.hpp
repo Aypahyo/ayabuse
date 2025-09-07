@@ -20,7 +20,7 @@ class bFILE
   public :
   FILE *fp;
   bFILE(FILE *FP) { fp=FP; }
-  bFILE(char *fn, char *mode) { fp=fopen(fn,mode); }
+  bFILE(const char *fn, const char *mode) { fp=fopen(fn,mode); }
   long file_size() { long cur=ftell(fp),ret; fseek(fp,0,2); ret=ftell(fp); 
 		     fseek(fp,cur,0); return ret; }
   int read(void *buf, int count) { return fread(buf,count,1,fp); }
@@ -32,7 +32,7 @@ class bFILE
 
 #define jFILE bFILE
 
-bFILE *open_file(char *name, char *perm) { return new bFILE(fopen(name,perm)); }
+bFILE *open_file(const char *name, const char *perm) { return new bFILE(fopen(name,perm)); }
 #define dprintf printf
 void dgets(char *s, int x)
 { fgets(s,x,stdin);

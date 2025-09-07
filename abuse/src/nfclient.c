@@ -32,7 +32,7 @@ class nfs_file : public bFILE
   virtual int open_failure();
   virtual int unbuffered_read(void *buf, size_t count);       // returns number of bytes read
   int new_read(void *buf, size_t count);       // returns number of bytes read
-  virtual int unbuffered_write(void *buf, size_t count);      // returns number of bytes written
+  virtual int unbuffered_write(const void *buf, size_t count);      // returns number of bytes written
   virtual int unbuffered_seek(long offset, int whence);  // whence=SEEK_SET, SEEK_CUR, SEEK_END, ret=0=success
   virtual int unbuffered_tell();
   virtual int file_size();
@@ -143,10 +143,10 @@ int nfs_file::unbuffered_read(void *buf, size_t count)      // returns number of
   else return 0;
 }
 
-int nfs_file::unbuffered_write(void *buf, size_t count)      // returns number of bytes written
+int nfs_file::unbuffered_write(const void *buf, size_t count)      // returns number of bytes written
 {
   if (local)
-    return local->write(buf,count);
+  return local->write(buf,count);
   else
   { 
     fprintf(stderr,"write to nfs file not allowed for now!\n");

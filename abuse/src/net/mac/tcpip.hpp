@@ -175,9 +175,9 @@ class tcp_socket : public unix_fd
   { 
     if (listening)
     {
-      struct sockaddr_in from;
-      int addr_len=sizeof(from);
-      int new_fd=::accept(fd,(sockaddr *)&from,&addr_len);
+  struct sockaddr_in from;
+  socklen_t addr_len=sizeof(from);
+  int new_fd=::accept(fd,(sockaddr *)&from,&addr_len);
       if (new_fd>=0)
       {
         addr=new ip_address(&from);
@@ -199,9 +199,9 @@ class udp_socket : public unix_fd
     int tr;
     if (addr) 
     {
-      *addr=new ip_address;
-      int addr_size=sizeof(sockaddr_in);
-      tr=recvfrom(fd,buf,size,0, (sockaddr *) &((ip_address *)(*addr))->addr,&addr_size);
+  *addr=new ip_address;
+  socklen_t addr_size=sizeof(sockaddr_in);
+  tr=recvfrom(fd,buf,size,0, (sockaddr *) &((ip_address *)(*addr))->addr,&addr_size);
     } else
       tr=recv(fd,buf,size,0);
     return tr;

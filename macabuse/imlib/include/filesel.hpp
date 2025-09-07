@@ -5,10 +5,10 @@
 
 
 
-jwindow *file_dialog(window_manager *wm, char *prompt, char *def,
-		     int ok_id, char *ok_name, int cancel_id, char *cancel_name,
-		     char *FILENAME_str,
-		     int filename_id);
+jwindow *file_dialog(window_manager *wm, const char *prompt, const char *def,
+			 int ok_id, const char *ok_name, int cancel_id, const char *cancel_name,
+			 const char *FILENAME_str,
+			 int filename_id);
 
 #endif
 
